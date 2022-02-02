@@ -1,8 +1,15 @@
 import { Node } from "./Node";
 
-export class Nodes {
+export interface Nodes {
     list: Set<Node>;
+    add(node: Node): void;
+    remove(node: Node): void;
+    displayNodes(): void;
+    joinNodes(): void;
+    removeJoints(node: Node): void;
+}
 
+export class Nodes implements Nodes {
     constructor() {
         this.list = new Set();
     }

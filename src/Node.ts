@@ -6,14 +6,21 @@ import { p5Container as p } from "./main";
 export type Joint = { id: string; x: number; y: number };
 export type Joints = [Joint, Joint];
 
-export class Node {
+export interface Node {
     id: string;
     position: Vector;
     radius: number;
     color: number;
     joints: Set<Joints>;
     isHovered: boolean;
+    checkBoundaryCollision(): boolean;
+    checkCollision(otherNode: Node): boolean;
+    joinNodes(nodeList: Set<Node>): void;
+    addJoint(joint: Joints): void;
+    display(): void;
+}
 
+export class Node {
     constructor(x: number, y: number) {
         this.id = `${Math.round(x)}${Math.round(y)}`;
         this.position = new p5.Vector(x, y);
@@ -39,9 +46,9 @@ export class Node {
         return false;
     }
 
-    public checkCollision(otherBall: Node): boolean {
+    public checkCollision(otherNode: Node): boolean {
         const { position, radius } = this;
-        const { position: oPosition, radius: oRadius } = otherBall;
+        const { position: oPosition, radius: oRadius } = otherNode;
         const distanceVect = p5.Vector.sub(oPosition, position);
 
         // Calculate magnitude of the vector separating the balls
@@ -99,14 +106,14 @@ export class Node {
         this.joints.add(joint);
     }
 
-    public checkHoverState(): void {
-        const { position: ballPosition, radius } = this;
-        const mousePosition = new p5.Vector(mouseX, mouseY);
-        const distanceVect = p5.Vector.sub(ballPosition, mousePosition);
-        const distanceVectMag = distanceVect.mag();
+    // public checkHoverState(): void {
+    //     const { position: ballPosition, radius } = this;
+    //     const mousePosition = new p5.Vector(mouseX, mouseY);
+    //     const distanceVect = p5.Vector.sub(ballPosition, mousePosition);
+    //     const distanceVectMag = distanceVect.mag();
 
-        this.isHovered = distanceVectMag < radius ? true : false;
-    }
+    //     this.isHovered = distanceVectMag < radius ? true : false;
+    // }
 
     public display(): void {
         p.noStroke();

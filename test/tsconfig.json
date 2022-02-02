@@ -1,0 +1,18 @@
+{
+    "ts-node": {
+        "files": true
+    },
+    "compilerOptions": {
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "module": "commonJs",
+        "lib": ["ESNext"],
+        "strict": true,
+        "sourceMap": false,
+        "inlineSources": false,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+
+    },
+    "include": ["./test/**/*"],
+}
