@@ -1,6 +1,6 @@
 import "./style.css";
 import { Node } from "./Node";
-import { Nodes } from "./Balls";
+import { Nodes } from "./Nodes";
 import p5 from "p5";
 
 const balls = new Nodes();
