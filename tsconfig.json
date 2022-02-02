@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "lib": ["ESNext", "DOM"],
+        "moduleResolution": "Node",
+        "strict": true,
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "noEmit": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "preserveConstEnums": true,
+        "forceConsistentCasingInFileNames": true,
+        "allowUnusedLabels": false,
+        "strictPropertyInitialization": true,
+    },
+    "include": ["./src",  "global.d.ts"],
+    "exclude": ["node_modules"]
+}
