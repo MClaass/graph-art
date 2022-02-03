@@ -5,9 +5,10 @@ import { p5Container as p } from "./main";
 export type Joint = { id: string; x: number; y: number };
 export type Joints = [Joint, Joint];
 export type rgbColor = [number, number, number];
+export type nodeID = string;
 
 export class Node {
-    id: string;
+    id: nodeID;
     position: Vector;
     radius: number;
     color: rgbColor;
@@ -57,8 +58,8 @@ export class Node {
         return false;
     }
 
-    public joinNodes(nodeList: Set<Node>): void {
-        nodeList.forEach((b) => {
+    public joinNodes(nodeList: Map<nodeID, Node>): void {
+        nodeList.forEach((n) => {
             const {
                 id: startID,
                 position: { x: aX, y: aY },
@@ -71,7 +72,7 @@ export class Node {
                 position: { x: bX, y: bY },
                 color: colorB,
                 joints: jointsB,
-            } = b;
+            } = n;
 
             const dis = p.dist(aX, aY, bX, bY);
 

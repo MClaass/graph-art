@@ -1,18 +1,18 @@
-import { Node } from "./Node";
+import { Node, nodeID } from "./Node";
 
 export class Nodes {
-    list: Set<Node>;
+    list: Map<nodeID, Node>;
 
     constructor() {
-        this.list = new Set();
+        this.list = new Map();
     }
 
     public add(node: Node): void {
-        this.list.add(node);
+        this.list.set(node.id, node);
     }
 
-    public remove(node: Node): void {
-        this.list.delete(node);
+    public remove(nodeID: nodeID): void {
+        this.list.delete(nodeID);
     }
 
     public displayNodes(): void {
@@ -23,10 +23,10 @@ export class Nodes {
 
     public joinNodes(): void {
         if (this.list.size > 1) {
-            this.list.forEach((b) => {
-                const slicedNodeList = new Set(this.list);
-                slicedNodeList.delete(b);
-                b.joinNodes(slicedNodeList);
+            this.list.forEach((n) => {
+                const slicedNodeList = new Map(this.list);
+                slicedNodeList.delete(n.id);
+                n.joinNodes(slicedNodeList);
             });
         }
     }

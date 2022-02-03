@@ -56,8 +56,8 @@ function createNode(x: number, y: number): void {
     const color = getRandomFromArray(colors) as rgbColor;
     const newNode = new Node(x, y, color);
 
-    const collidedWithNewNode = [...nodeList].some((b) =>
-        newNode.checkCollision(b)
+    const collidedWithNewNode = [...nodeList].some(([_, node]) =>
+        newNode.checkCollision(node)
     );
 
     if (!newNode.checkBoundaryCollision() && !collidedWithNewNode) {
