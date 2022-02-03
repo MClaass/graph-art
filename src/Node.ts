@@ -58,46 +58,6 @@ export class Node {
         return false;
     }
 
-    public joinNodes(nodeList: Map<nodeID, Node>): void {
-        nodeList.forEach((n) => {
-            const {
-                id: startID,
-                position: { x: aX, y: aY },
-                joints: jointsA,
-                color: colorA,
-            } = this;
-
-            const {
-                id: endID,
-                position: { x: bX, y: bY },
-                joints: jointsB,
-                color: colorB,
-            } = n;
-
-            const dis = p.dist(aX, aY, bX, bY);
-
-            if (
-                startID !== endID &&
-                dis < window.innerWidth / 8 &&
-                jointsA.size <= 4 &&
-                jointsB.size <= 4
-            ) {
-                this.joints.add([
-                    {
-                        id: startID,
-                        position: new p5.Vector(aX, aY),
-                        color: colorA,
-                    },
-                    {
-                        id: endID,
-                        position: new p5.Vector(bX, bY),
-                        color: colorB,
-                    },
-                ]);
-            }
-        });
-    }
-
     public checkHoverState(vector: Vector): void {
         const { position: nodePosition, radius } = this;
         const distanceVect = p5.Vector.sub(nodePosition, vector);
@@ -117,5 +77,9 @@ export class Node {
 
         p.fill(color);
         p.circle(x, y, radius);
+    }
+
+    public addJoints(joints: Joints): void {
+        this.joints.add(joints);
     }
 }

@@ -1,4 +1,4 @@
-import { Node, nodeID } from "./Node";
+import { Joints, Node, nodeID } from "./Node";
 import { p5Container as p } from "./main";
 
 export class Nodes {
@@ -44,9 +44,59 @@ export class Nodes {
             this.list.forEach((n) => {
                 const slicedNodeList = new Map(this.list);
                 slicedNodeList.delete(n.id);
-                n.joinNodes(slicedNodeList);
+                this.joinToOtherNodes(n, slicedNodeList);
             });
         }
+    }
+
+    public joinToOtherNodes(
+        startNode: Node,
+        nodeList: Map<nodeID, Node>
+    ): void {
+        nodeList.forEach((endNode) => {
+            const {
+                id: startID,
+                position: startPosition,
+                joints: jointsA,
+                color: colorA,
+            } = startNode;
+
+            const {
+                id: endID,
+                position: endPosition,
+                joints: jointsB,
+                color: colorB,
+            } = endNode;
+
+            const dis = p.dist(
+                startPosition.x,
+                startPosition.y,
+                endPosition.x,
+                endPosition.y
+            );
+
+            if (
+                startID !== endID &&
+                dis < window.innerWidth / 8 &&
+                jointsA.size <= 4 &&
+                jointsB.size <= 4
+            ) {
+                const joints = [
+                    {
+                        id: startID,
+                        position: startPosition,
+                        color: colorA,
+                    },
+                    {
+                        id: endID,
+                        position: endPosition,
+                        color: colorB,
+                    },
+                ] as Joints;
+
+                startNode.addJoints(joints);
+            }
+        });
     }
 
     public removeJoints(nodeID: nodeID): void {
