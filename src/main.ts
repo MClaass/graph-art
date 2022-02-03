@@ -26,9 +26,7 @@ const s = (p: p5) => {
             createNode(x, y);
         }
 
-        nodes.displayNodes();
-        nodes.joinNodes();
-        nodes.displayJoints();
+        renderNodes();
     };
 
     p.mouseClicked = () => {
@@ -40,17 +38,13 @@ const s = (p: p5) => {
 
             p.clear(0, 0, 0, 0);
 
-            nodes.displayNodes();
-            nodes.joinNodes();
-            nodes.displayJoints();
+            renderNodes();
 
             return false;
         }
 
         createNode(p.mouseX, p.mouseY);
-        nodes.displayNodes();
-        nodes.joinNodes();
-        nodes.displayJoints();
+        renderNodes();
 
         return false;
     };
@@ -80,6 +74,12 @@ function isNodeHovered(): Node | undefined {
         .filter((node) => node.isHovered === true);
 
     return node.length > 0 ? node[0] : undefined;
+}
+
+function renderNodes(): void {
+    nodes.displayNodes();
+    nodes.joinNodes();
+    nodes.displayJoints();
 }
 
 export const p5Container = new p5(s);
