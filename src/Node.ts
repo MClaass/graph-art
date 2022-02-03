@@ -77,7 +77,7 @@ export class Node {
 
             if (
                 startID !== endID &&
-                dis < 225 &&
+                dis < window.innerWidth / 8 &&
                 jointsA.size <= 4 &&
                 jointsB.size <= 4
             ) {
