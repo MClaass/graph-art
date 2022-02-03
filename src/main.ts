@@ -8,17 +8,19 @@ const { list: ballList } = balls;
 
 const s = (p: p5) => {
     p.setup = () => {
-        p.createCanvas(p.windowWidth, p.windowHeight);
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        p.createCanvas(width, height);
         p.colorMode("hsb", 360, 100, 100, 100);
         p.angleMode("degrees");
 
         const randomBallGeneration = Math.round(
-            Math.min((p.width * p.height) / 7000, 100)
+            Math.min((width * height) / 7000, 100)
         );
 
         for (let i = 0; i < randomBallGeneration; i++) {
-            const x = p.random(p.windowWidth);
-            const y = p.random(p.windowHeight);
+            const x = p.random(width);
+            const y = p.random(height);
             createNode(x, y);
         }
 
