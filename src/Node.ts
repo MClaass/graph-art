@@ -1,24 +1,24 @@
 import { Vector } from "p5";
-import { colors } from "./constants";
 import p5 from "p5";
 import { p5Container as p } from "./main";
 
 export type Joint = { id: string; x: number; y: number };
 export type Joints = [Joint, Joint];
+export type rgbColor = [number, number, number];
 
 export class Node {
     id: string;
     position: Vector;
     radius: number;
-    color: number;
+    color: rgbColor;
     joints: Set<Joints>;
     isHovered: boolean;
 
-    constructor(x: number, y: number) {
+    constructor(x: number, y: number, color: rgbColor) {
         this.id = `${Math.round(x)}${Math.round(y)}`;
         this.position = new p5.Vector(x, y);
         this.radius = 6;
-        this.color = p.random(colors);
+        this.color = color;
         this.joints = new Set();
         this.isHovered = false;
     }
@@ -39,9 +39,9 @@ export class Node {
         return false;
     }
 
-    public checkCollision(otherBall: Node): boolean {
+    public checkCollision(otherNode: Node): boolean {
         const { position, radius } = this;
-        const { position: oPosition, radius: oRadius } = otherBall;
+        const { position: oPosition, radius: oRadius } = otherNode;
         const distanceVect = p5.Vector.sub(oPosition, position);
 
         // Calculate magnitude of the vector separating the balls
@@ -100,9 +100,9 @@ export class Node {
     }
 
     public checkHoverState(): void {
-        const { position: ballPosition, radius } = this;
+        const { position: nodePosition, radius } = this;
         const mousePosition = new p5.Vector(mouseX, mouseY);
-        const distanceVect = p5.Vector.sub(ballPosition, mousePosition);
+        const distanceVect = p5.Vector.sub(nodePosition, mousePosition);
         const distanceVectMag = distanceVect.mag();
 
         this.isHovered = distanceVectMag < radius ? true : false;

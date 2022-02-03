@@ -1,10 +1,12 @@
 import "./style.css";
-import { Node } from "./Node";
+import { Node, rgbColor } from "./Node";
 import { Nodes } from "./Nodes";
+import { getRandomArbitrary, getRandomFromArray } from "./utils";
 import p5 from "p5";
+import { colors } from "./constants";
 
-const balls = new Nodes();
-const { list: ballList } = balls;
+const nodes = new Nodes();
+const { list: nodeList } = nodes;
 
 const s = (p: p5) => {
     p.setup = () => {
@@ -14,18 +16,18 @@ const s = (p: p5) => {
         p.colorMode("hsb", 360, 100, 100, 100);
         p.angleMode("degrees");
 
-        const randomBallGeneration = Math.round(
+        const randomNodeGeneration = Math.round(
             Math.min((width * height) / 7000, 100)
         );
 
-        for (let i = 0; i < randomBallGeneration; i++) {
-            const x = p.random(width);
-            const y = p.random(height);
+        for (let i = 0; i < randomNodeGeneration; i++) {
+            const x = getRandomArbitrary(0, width);
+            const y = getRandomArbitrary(0, height);
             createNode(x, y);
         }
 
-        balls.displayNodes();
-        balls.joinNodes();
+        nodes.displayNodes();
+        nodes.joinNodes();
     };
 
     p.mouseClicked = () => {
@@ -43,22 +45,23 @@ const s = (p: p5) => {
         // }
 
         createNode(p.mouseX, p.mouseY);
-        balls.displayNodes();
-        balls.joinNodes();
+        nodes.displayNodes();
+        nodes.joinNodes();
 
         return false;
     };
 };
 
 function createNode(x: number, y: number): void {
-    const newNode = new Node(x, y);
+    const color = getRandomFromArray(colors) as rgbColor;
+    const newNode = new Node(x, y, color);
 
-    const collidedWithNewNode = [...ballList].some((b) =>
+    const collidedWithNewNode = [...nodeList].some((b) =>
         newNode.checkCollision(b)
     );
 
     if (!newNode.checkBoundaryCollision() && !collidedWithNewNode) {
-        balls.add(newNode);
+        nodes.add(newNode);
     }
 }
 
