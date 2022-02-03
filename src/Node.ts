@@ -2,7 +2,7 @@ import { Vector } from "p5";
 import p5 from "p5";
 import { p5Container as p } from "./main";
 
-export type Joint = { id: string; x: number; y: number };
+export type Joint = { id: string; position: Vector; color: rgbColor };
 export type Joints = [Joint, Joint];
 export type rgbColor = [number, number, number];
 export type nodeID = string;
@@ -63,15 +63,15 @@ export class Node {
             const {
                 id: startID,
                 position: { x: aX, y: aY },
-                color: colorA,
                 joints: jointsA,
+                color: colorA,
             } = this;
 
             const {
                 id: endID,
                 position: { x: bX, y: bY },
-                color: colorB,
                 joints: jointsB,
+                color: colorB,
             } = n;
 
             const dis = p.dist(aX, aY, bX, bY);
@@ -82,28 +82,25 @@ export class Node {
                 jointsA.size <= 4 &&
                 jointsB.size <= 4
             ) {
-                this.addJoint([
-                    { id: startID, x: aX, y: aY },
-                    { id: endID, x: bX, y: bY },
+                this.joints.add([
+                    {
+                        id: startID,
+                        position: new p5.Vector(aX, aY),
+                        color: colorA,
+                    },
+                    {
+                        id: endID,
+                        position: new p5.Vector(bX, bY),
+                        color: colorB,
+                    },
                 ]);
-
-                const colorDefA = p.color(colorA);
-                const colorDefB = p.color(colorB);
-                const strokeColor = p.lerpColor(colorDefA, colorDefB, 0.5);
-                p.stroke(strokeColor);
-                p.line(aX, aY, bX, bY);
             }
         });
     }
 
-    public addJoint(joint: Joints): void {
-        this.joints.add(joint);
-    }
-
-    public checkHoverState(): void {
+    public checkHoverState(vector: Vector): void {
         const { position: nodePosition, radius } = this;
-        const mousePosition = new p5.Vector(mouseX, mouseY);
-        const distanceVect = p5.Vector.sub(nodePosition, mousePosition);
+        const distanceVect = p5.Vector.sub(nodePosition, vector);
         const distanceVectMag = distanceVect.mag();
 
         this.isHovered = distanceVectMag < radius ? true : false;

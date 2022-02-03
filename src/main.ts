@@ -28,25 +28,29 @@ const s = (p: p5) => {
 
         nodes.displayNodes();
         nodes.joinNodes();
+        nodes.displayJoints();
     };
 
     p.mouseClicked = () => {
-        // const isHovered = updateHoverState();
+        const hoveredNode = isNodeHovered();
 
-        // if (isHovered.length === 1) {
-        //     isHovered[ 0 ].removeJoints();
-        //     ballList.delete(isHovered[ 0 ]);
+        if (hoveredNode !== undefined) {
+            nodes.removeJoints(hoveredNode.id);
+            nodes.remove(hoveredNode.id);
 
-        //     p.clear(0, 0, 0, 0);
+            p.clear(0, 0, 0, 0);
 
-        //     displayBalls();
+            nodes.displayNodes();
+            nodes.joinNodes();
+            nodes.displayJoints();
 
-        //     return false;
-        // }
+            return false;
+        }
 
         createNode(p.mouseX, p.mouseY);
         nodes.displayNodes();
         nodes.joinNodes();
+        nodes.displayJoints();
 
         return false;
     };
@@ -66,13 +70,16 @@ function createNode(x: number, y: number): void {
     }
 }
 
-// function updateHoverState(): Ball[] {
-//     return [ ...ballList ]
-//         .map((b) => {
-//             b.checkHoverState();
-//             return b;
-//         })
-//         .filter((b) => b.isHovered);
-// }
+function isNodeHovered(): Node | undefined {
+    const mouseVector = new p5.Vector(p5Container.mouseX, p5Container.mouseY);
+    const node = [...nodeList]
+        .map(([_, node]) => {
+            node.checkHoverState(mouseVector);
+            return node;
+        })
+        .filter((node) => node.isHovered === true);
+
+    return node.length > 0 ? node[0] : undefined;
+}
 
 export const p5Container = new p5(s);

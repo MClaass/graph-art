@@ -1,4 +1,5 @@
 import { Node, nodeID } from "./Node";
+import { p5Container as p } from "./main";
 
 export class Nodes {
     list: Map<nodeID, Node>;
@@ -21,6 +22,23 @@ export class Nodes {
         });
     }
 
+    public displayJoints(): void {
+        this.list.forEach((n) => {
+            const { joints } = n;
+            joints.forEach(([j1, j2]) => {
+                const { color: startColor, position: start } = j1;
+                const { color: endColor, position: end } = j2;
+                const strokeColor = p.lerpColor(
+                    p.color(startColor),
+                    p.color(endColor),
+                    0.5
+                );
+                p.stroke(strokeColor);
+                p.line(start.x, start.y, end.x, end.y);
+            });
+        });
+    }
+
     public joinNodes(): void {
         if (this.list.size > 1) {
             this.list.forEach((n) => {
@@ -31,15 +49,15 @@ export class Nodes {
         }
     }
 
-    public removeJoints(node: Node): void {
-        const { id } = node;
-
+    public removeJoints(nodeID: nodeID): void {
         this.list.forEach((node) => {
             const joints = node.joints;
             const jointsToRemove = [...joints].filter(
-                ([_, end]) => end.id === id
+                ([_, end]) => end.id === nodeID
             );
-            jointsToRemove.map((j) => node.joints.delete(j));
+            if (jointsToRemove.length > 0) {
+                jointsToRemove.map((j) => node.joints.delete(j));
+            }
         });
     }
 }
