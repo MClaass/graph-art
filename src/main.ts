@@ -54,7 +54,8 @@ const s = (p: p5) => {
 
 function createNode(x: number, y: number): void {
     const color = getRandomFromArray(colors) as rgbColor;
-    const newNode = new Node(x, y, color);
+    const vector = new p5.Vector(x, y);
+    const newNode = new Node(vector, color);
 
     const collidedWithNewNode = [...nodeList].some(([_, node]) =>
         newNode.checkCollision(node)

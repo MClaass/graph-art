@@ -15,9 +15,9 @@ export class Node {
     joints: Set<Joints>;
     isHovered: boolean;
 
-    constructor(x: number, y: number, color: rgbColor) {
-        this.id = `${Math.round(x)}${Math.round(y)}`;
-        this.position = new p5.Vector(x, y);
+    constructor(vector: Vector, color: rgbColor) {
+        this.id = `${Math.round(vector.x)}${Math.round(vector.y)}`;
+        this.position = vector;
         this.radius = 6;
         this.color = color;
         this.joints = new Set();
