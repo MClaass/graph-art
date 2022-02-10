@@ -40,13 +40,11 @@ const s = (p: p5) => {
 
             renderNodes();
 
-            return false;
+            return;
         }
 
         createNode(p.mouseX, p.mouseY);
         renderNodes();
-
-        return false;
     };
 };
 
