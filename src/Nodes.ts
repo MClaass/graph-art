@@ -1,3 +1,4 @@
+import CONSTANTS from "./constants";
 import { Joints, GraphNode, nodeID } from "./Node";
 
 export class Nodes {
@@ -44,9 +45,9 @@ export class Nodes {
 
             if (
                 startID !== endID &&
-                dis < window.innerWidth / 8 &&
-                jointsA.size <= 4 &&
-                jointsB.size <= 4
+                dis < CONSTANTS.DISTANCE_CAP &&
+                jointsA.size <= CONSTANTS.NODE_CONNECTION_CAP &&
+                jointsB.size <= CONSTANTS.NODE_CONNECTION_CAP
             ) {
                 const joints = [
                     {

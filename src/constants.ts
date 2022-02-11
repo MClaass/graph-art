@@ -1,4 +1,4 @@
-const colors = [
+const COLORS = [
     [194, 100, 10],
     [169, 100, 45],
     [181, 93, 59],
@@ -11,7 +11,12 @@ const colors = [
     [358, 78, 61],
 ];
 
-const nodeRadius = 6;
-const nodeLimit = 100;
+const CONSTANTS = {
+    COLORS,
+    NODE_RADIUS: 6,
+    NODE_LIMIT: 100,
+    NODE_CONNECTION_CAP: 4,
+    DISTANCE_CAP: 140,
+};
 
-export { colors, nodeRadius, nodeLimit };
+export default CONSTANTS;

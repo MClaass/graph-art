@@ -1,4 +1,4 @@
-import { colors, nodeLimit } from "./constants";
+import CONSTANTS from "./constants";
 import { GraphNode, hsbColor } from "./Node";
 import { Nodes } from "./Nodes";
 import { getRandomArbitrary, getRandomFromArray } from "./utils";
@@ -23,7 +23,7 @@ export class GraphCanvas {
                 p.angleMode("degrees");
 
                 const randomNodeGeneration = Math.round(
-                    Math.min((width * height) / 7000, nodeLimit)
+                    Math.min((width * height) / 7000, CONSTANTS.NODE_LIMIT)
                 );
 
                 for (let i = 0; i < randomNodeGeneration; i++) {
@@ -59,7 +59,7 @@ export class GraphCanvas {
     }
 
     private createNode(x: number, y: number): void {
-        const color = getRandomFromArray(colors) as hsbColor;
+        const color = getRandomFromArray(CONSTANTS.COLORS) as hsbColor;
         const vector = new p5.Vector(x, y);
         const newNode = new GraphNode(vector, color);
         const { list: nodeList } = this.nodes;
