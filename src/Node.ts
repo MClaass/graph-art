@@ -1,13 +1,13 @@
 import { Vector } from "p5";
 import p5 from "p5";
-import { p5Container as p } from "./main";
+import { nodeRadius } from "./constants";
 
 export type Joint = { id: string; position: Vector; color: rgbColor };
 export type Joints = [Joint, Joint];
 export type rgbColor = [number, number, number];
 export type nodeID = string;
 
-export class Node {
+export class GraphNode {
     id: nodeID;
     position: Vector;
     radius: number;
@@ -18,20 +18,20 @@ export class Node {
     constructor(vector: Vector, color: rgbColor) {
         this.id = `${Math.round(vector.x)}${Math.round(vector.y)}`;
         this.position = vector;
-        this.radius = 6;
+        this.radius = nodeRadius;
         this.color = color;
         this.joints = new Set();
         this.isHovered = false;
     }
 
-    public checkBoundaryCollision(): boolean {
+    public checkBoundaryCollision(width: number, height: number): boolean {
         const {
             position: { x, y },
             radius,
         } = this;
 
-        const xBboundaryCollision = x > p.width - radius || x < radius;
-        const yBoundaryCollision = y > p.height - radius || y < radius;
+        const xBboundaryCollision = x > width - radius || x < radius;
+        const yBoundaryCollision = y > height - radius || y < radius;
 
         if (xBboundaryCollision || yBoundaryCollision) {
             return true;
@@ -40,7 +40,7 @@ export class Node {
         return false;
     }
 
-    public checkCollision(otherNode: Node): boolean {
+    public checkCollision(otherNode: GraphNode): boolean {
         const { position, radius } = this;
         const { position: oPosition, radius: oRadius } = otherNode;
         const distanceVect = p5.Vector.sub(oPosition, position);
@@ -64,19 +64,6 @@ export class Node {
         const distanceVectMag = distanceVect.mag();
 
         this.isHovered = distanceVectMag < radius ? true : false;
-    }
-
-    public display(): void {
-        p.noStroke();
-
-        const {
-            position: { x, y },
-            radius,
-            color,
-        } = this;
-
-        p.fill(color);
-        p.circle(x, y, radius);
     }
 
     public addJoints(joints: Joints): void {
