@@ -12,5 +12,6 @@ const colors = [
 ];
 
 const nodeRadius = 6;
+const nodeLimit = 100;
 
-export { colors, nodeRadius };
+export { colors, nodeRadius, nodeLimit };
