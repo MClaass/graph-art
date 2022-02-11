@@ -1,9 +1,12 @@
-name: 'test'
+name: 'build'
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -13,6 +16,9 @@ jobs:
           node-version: '16.x'
           cache: 'yarn'
       - run: yarn --frozen-lockfile
-      - run: yarn lint
-
+      - run: yarn build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist/
 
