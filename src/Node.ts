@@ -2,20 +2,20 @@ import { Vector } from "p5";
 import p5 from "p5";
 import { nodeRadius } from "./constants";
 
-export type Joint = { id: string; position: Vector; color: rgbColor };
+export type Joint = { id: string; position: Vector; color: hsbColor };
 export type Joints = [Joint, Joint];
-export type rgbColor = [number, number, number];
+export type hsbColor = [number, number, number];
 export type nodeID = string;
 
 export class GraphNode {
     id: nodeID;
     position: Vector;
     radius: number;
-    color: rgbColor;
+    color: hsbColor;
     joints: Set<Joints>;
     isHovered: boolean;
 
-    constructor(vector: Vector, color: rgbColor) {
+    constructor(vector: Vector, color: hsbColor) {
         this.id = `${Math.round(vector.x)}${Math.round(vector.y)}`;
         this.position = vector;
         this.radius = nodeRadius;

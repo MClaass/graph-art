@@ -1,5 +1,5 @@
 import { colors } from "./constants";
-import { GraphNode, rgbColor } from "./Node";
+import { GraphNode, hsbColor } from "./Node";
 import { Nodes } from "./Nodes";
 import { getRandomArbitrary, getRandomFromArray } from "./utils";
 import p5 from "p5";
@@ -59,7 +59,7 @@ export class GraphCanvas {
     }
 
     private createNode(x: number, y: number): void {
-        const color = getRandomFromArray(colors) as rgbColor;
+        const color = getRandomFromArray(colors) as hsbColor;
         const vector = new p5.Vector(x, y);
         const newNode = new GraphNode(vector, color);
         const { list: nodeList } = this.nodes;
