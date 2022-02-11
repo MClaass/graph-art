@@ -1,14 +1,13 @@
-import { Joints, Node, nodeID } from "./Node";
-import { p5Container as p } from "./main";
+import { Joints, GraphNode, nodeID } from "./Node";
 
 export class Nodes {
-    list: Map<nodeID, Node>;
+    list: Map<nodeID, GraphNode>;
 
     constructor() {
         this.list = new Map();
     }
 
-    public add(node: Node): void {
+    public add(node: GraphNode): void {
         this.list.set(node.id, node);
     }
 
@@ -16,42 +15,10 @@ export class Nodes {
         this.list.delete(nodeID);
     }
 
-    public displayNodes(): void {
-        this.list.forEach((b) => {
-            b.display();
-        });
-    }
-
-    public displayJoints(): void {
-        this.list.forEach((n) => {
-            const { joints } = n;
-            joints.forEach(([j1, j2]) => {
-                const { color: startColor, position: start } = j1;
-                const { color: endColor, position: end } = j2;
-                const strokeColor = p.lerpColor(
-                    p.color(startColor),
-                    p.color(endColor),
-                    0.5
-                );
-                p.stroke(strokeColor);
-                p.line(start.x, start.y, end.x, end.y);
-            });
-        });
-    }
-
-    public joinNodes(): void {
-        if (this.list.size > 1) {
-            this.list.forEach((n) => {
-                const slicedNodeList = new Map(this.list);
-                slicedNodeList.delete(n.id);
-                this.joinToOtherNodes(n, slicedNodeList);
-            });
-        }
-    }
-
     public joinToOtherNodes(
-        startNode: Node,
-        nodeList: Map<nodeID, Node>
+        startNode: GraphNode,
+        nodeList: Map<nodeID, GraphNode>,
+        p: p5
     ): void {
         nodeList.forEach((endNode) => {
             const {
