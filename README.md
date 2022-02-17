@@ -17,12 +17,9 @@ Instantiate a new graph visualisation  by calling `new GraphCanvas(width, height
 
 ## Development
 
-This package uses [Vite](https://vitejs.dev/) to build the project.
 The following commands are available to build/run the project:
 
 | Command | Description |
 | ----------- | ----------- |
-| `yarn dev` | Starts a local dev server at port `7000` |
 | `yarn build` | Create production build within the `dist` folder |
-| `yarn preview` | Show a preview of production level code |
 | `yarn lint` | Lint the code via ESLint |
