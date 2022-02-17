@@ -2,12 +2,16 @@
     "name": "graph-art",
     "version": "1.0.0",
     "description": "Generative graph art",
+    "main": "dist/main.js",
+    "repository": "https://github.com/MClaass/graph-art.git",
     "author": "Marieke Claassens <hallo@mclaass.nl>",
     "license": "MIT",
     "private": false,
     "scripts": {
         "build": "tsc",
-        "lint": "yarn run eslint . --ext .js,.ts"
+        "clean": "rm -rf dist",
+        "lint": "yarn run eslint . --ext .js,.ts",
+        "prepack": "yarn clean && yarn build"
     },
     "devDependencies": {
         "@types/p5": "^1.4.0",
