@@ -7,6 +7,11 @@
     "author": "Marieke Claassens <hallo@mclaass.nl>",
     "license": "MIT",
     "private": false,
+    "keywords": [
+        "canvas",
+        "graph",
+        "interactive"
+    ],
     "scripts": {
         "build": "tsc",
         "clean": "rm -rf dist",
