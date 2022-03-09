@@ -1,8 +1,9 @@
 {
     "name": "graph-art",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Generative graph art",
     "main": "dist/main.js",
+    "types": "dist/types/main.d.ts",
     "repository": "https://github.com/MClaass/graph-art.git",
     "author": "Marieke Claassens <hallo@mclaass.nl>",
     "license": "MIT",
