@@ -4,20 +4,22 @@ import { Nodes } from "./Nodes";
 import { getRandomArbitrary, getRandomFromArray } from "./utils";
 import p5 from "p5";
 
-export class GraphCanvas {
+type canvasConfig = {
     width: number;
     height: number;
+};
+
+export class GraphCanvas {
+    config: canvasConfig;
     nodes: Nodes;
     canvas: (p: p5) => p5;
 
-    constructor(width: number, height: number) {
-        this.width = width;
-        this.height = height;
+    constructor(config: canvasConfig) {
+        this.config = config;
         this.nodes = new Nodes();
         this.canvas = (p: p5): p5 => {
             p.setup = () => {
-                const width = this.width;
-                const height = this.height;
+                const { width, height } = this.config;
                 p.createCanvas(width, height);
                 p.colorMode("hsb", 360, 100, 100, 100);
                 p.angleMode("degrees");
@@ -63,13 +65,14 @@ export class GraphCanvas {
         const vector = new p5.Vector(x, y);
         const newNode = new GraphNode(vector, color);
         const { list: nodeList } = this.nodes;
+        const { width, height } = this.config;
 
         const collidedWithNewNode = [...nodeList].some(([_, node]) =>
             newNode.checkCollision(node)
         );
 
         if (
-            !newNode.checkBoundaryCollision(this.width, this.height) &&
+            !newNode.checkBoundaryCollision(width, height) &&
             !collidedWithNewNode
         ) {
             this.nodes.add(newNode);
