@@ -7,6 +7,11 @@ import p5 from "p5";
 type canvasConfig = {
     width: number;
     height: number;
+    colors?: number[][];
+    nodeRadius?: number;
+    nodeLimit?: number;
+    nodeConnectionCap?: number;
+    distanceCap?: number;
 };
 
 export class GraphCanvas {
@@ -16,16 +21,26 @@ export class GraphCanvas {
 
     constructor(config: canvasConfig) {
         this.config = config;
-        this.nodes = new Nodes();
+        const { nodeConnectionCap, distanceCap } = this.config;
+        const connectionCapConfig =
+            nodeConnectionCap === undefined
+                ? CONSTANTS.NODE_CONNECTION_CAP
+                : nodeConnectionCap;
+        const distanceCapConfig =
+            distanceCap === undefined ? CONSTANTS.DISTANCE_CAP : distanceCap;
+
+        this.nodes = new Nodes(connectionCapConfig, distanceCapConfig);
         this.canvas = (p: p5): p5 => {
             p.setup = () => {
-                const { width, height } = this.config;
+                const { width, height, nodeLimit } = this.config;
+                const maxNodeLimit =
+                    nodeLimit === undefined ? CONSTANTS.NODE_LIMIT : nodeLimit;
                 p.createCanvas(width, height);
                 p.colorMode("hsb", 360, 100, 100, 100);
                 p.angleMode("degrees");
 
                 const randomNodeGeneration = Math.round(
-                    Math.min((width * height) / 7000, CONSTANTS.NODE_LIMIT)
+                    Math.min((width * height) / 7000, maxNodeLimit)
                 );
 
                 for (let i = 0; i < randomNodeGeneration; i++) {
@@ -61,11 +76,17 @@ export class GraphCanvas {
     }
 
     private createNode(x: number, y: number): void {
-        const color = getRandomFromArray(CONSTANTS.COLORS) as hsbColor;
+        const { nodeRadius, colors, width, height } = this.config;
+        const color = getRandomFromArray(
+            colors === undefined ? CONSTANTS.COLORS : colors
+        ) as hsbColor;
         const vector = new p5.Vector(x, y);
-        const newNode = new GraphNode(vector, color);
+        const newNode = new GraphNode(
+            vector,
+            color,
+            nodeRadius === undefined ? CONSTANTS.NODE_RADIUS : nodeRadius
+        );
         const { list: nodeList } = this.nodes;
-        const { width, height } = this.config;
 
         const collidedWithNewNode = [...nodeList].some(([_, node]) =>
             newNode.checkCollision(node)

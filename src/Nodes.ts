@@ -1,10 +1,13 @@
-import CONSTANTS from "./constants";
 import { Joints, GraphNode, nodeID } from "./Node";
 
 export class Nodes {
+    distanceCap: number;
+    connectionCap: number;
     list: Map<nodeID, GraphNode>;
 
-    constructor() {
+    constructor(distanceCap: number, connectionCap: number) {
+        this.distanceCap = distanceCap;
+        this.connectionCap = connectionCap;
         this.list = new Map();
     }
 
@@ -45,9 +48,9 @@ export class Nodes {
 
             if (
                 startID !== endID &&
-                dis < CONSTANTS.DISTANCE_CAP &&
-                jointsA.size <= CONSTANTS.NODE_CONNECTION_CAP &&
-                jointsB.size <= CONSTANTS.NODE_CONNECTION_CAP
+                dis < this.distanceCap &&
+                jointsA.size <= this.connectionCap &&
+                jointsB.size <= this.connectionCap
             ) {
                 const joints = [
                     {
