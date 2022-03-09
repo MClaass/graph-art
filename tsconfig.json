@@ -19,10 +19,7 @@
         "forceConsistentCasingInFileNames": true,
         "allowUnusedLabels": false,
         "strictPropertyInitialization": true,
-        "typeRoots": [
-            "src/typings"
-        ]
     },
-    "include": ["./src"],
+    "include": ["./src",  "global.d.ts"],
     "exclude": ["node_modules"]
 }
