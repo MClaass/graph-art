@@ -10,7 +10,8 @@
     "keywords": [
         "canvas",
         "graph",
-        "interactive"
+        "interactive",
+        "generative art"
     ],
     "scripts": {
         "build": "tsc",
