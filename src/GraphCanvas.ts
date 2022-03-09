@@ -18,7 +18,7 @@ export class GraphCanvas {
             p.setup = () => {
                 const width = this.width;
                 const height = this.height;
-                p.createCanvas(width, height, "svg");
+                p.createCanvas(width, height);
                 p.colorMode("hsb", 360, 100, 100, 100);
                 p.angleMode("degrees");
 
@@ -33,8 +33,6 @@ export class GraphCanvas {
                 }
 
                 this.renderNodes(p);
-                const fileName = new Date().getMilliseconds;
-                p.save(`${fileName}.svg`);
             };
 
             p.mouseClicked = () => {
