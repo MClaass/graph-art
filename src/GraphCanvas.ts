@@ -7,7 +7,7 @@ import p5 from "p5";
 type canvasConfig = {
     width: number;
     height: number;
-    colors?: number[][];
+    colors?: hsbColor[];
     nodeRadius?: number;
     nodeLimit?: number;
     nodeConnectionCap?: number;

@@ -1,6 +1,5 @@
 import { Vector } from "p5";
 import p5 from "p5";
-import CONSTANTS from "./constants";
 
 export type Joint = { id: string; position: Vector; color: hsbColor };
 export type Joints = [Joint, Joint];
