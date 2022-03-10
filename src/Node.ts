@@ -14,7 +14,15 @@ export class GraphNode {
     joints: Set<Joints>;
     isHovered: boolean;
 
-    constructor(vector: Vector, color: hsbColor, radius: number) {
+    constructor({
+        vector,
+        color,
+        radius,
+    }: {
+        vector: Vector;
+        color: hsbColor;
+        radius: number;
+    }) {
         this.id = `${Math.round(vector.x)}${Math.round(vector.y)}`;
         this.position = vector;
         this.radius = radius;

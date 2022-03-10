@@ -83,12 +83,14 @@ export class GraphCanvas {
         const color = getRandomFromArray(
             colors === undefined ? CONSTANTS.COLORS : colors
         ) as hsbColor;
+        const nodeRadiusConfig =
+            nodeRadius === undefined ? CONSTANTS.NODE_RADIUS : nodeRadius;
         const vector = new p5.Vector(x, y);
-        const newNode = new GraphNode(
+        const newNode = new GraphNode({
             vector,
             color,
-            nodeRadius === undefined ? CONSTANTS.NODE_RADIUS : nodeRadius
-        );
+            radius: nodeRadiusConfig,
+        });
         const { list: nodeList } = this.nodes;
 
         const collidedWithNewNode = [...nodeList].some(([_, node]) =>
