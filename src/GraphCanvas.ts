@@ -4,26 +4,46 @@ import { Nodes } from "./Nodes";
 import { getRandomArbitrary, getRandomFromArray } from "./utils";
 import p5 from "p5";
 
-export class GraphCanvas {
+type canvasConfig = {
     width: number;
     height: number;
+    colors?: hsbColor[];
+    nodeRadius?: number;
+    nodeLimit?: number;
+    nodeConnectionCap?: number;
+    distanceCap?: number;
+};
+
+export class GraphCanvas {
+    config: canvasConfig;
     nodes: Nodes;
     canvas: (p: p5) => p5;
 
-    constructor(width: number, height: number) {
-        this.width = width;
-        this.height = height;
-        this.nodes = new Nodes();
+    constructor(config: canvasConfig) {
+        this.config = config;
+        const { nodeConnectionCap, distanceCap } = this.config;
+        const connectionCapConfig =
+            nodeConnectionCap === undefined
+                ? CONSTANTS.NODE_CONNECTION_CAP
+                : nodeConnectionCap;
+        const distanceCapConfig =
+            distanceCap === undefined ? CONSTANTS.DISTANCE_CAP : distanceCap;
+
+        this.nodes = new Nodes({
+            distanceCap: distanceCapConfig,
+            connectionCap: connectionCapConfig,
+        });
         this.canvas = (p: p5): p5 => {
             p.setup = () => {
-                const width = this.width;
-                const height = this.height;
+                const { width, height, nodeLimit } = this.config;
+                const maxNodeLimit =
+                    nodeLimit === undefined ? CONSTANTS.NODE_LIMIT : nodeLimit;
                 p.createCanvas(width, height);
                 p.colorMode("hsb", 360, 100, 100, 100);
                 p.angleMode("degrees");
 
                 const randomNodeGeneration = Math.round(
-                    Math.min((width * height) / 7000, CONSTANTS.NODE_LIMIT)
+                    Math.min((width * height) / 7000, maxNodeLimit)
                 );
 
                 for (let i = 0; i < randomNodeGeneration; i++) {
@@ -59,9 +79,18 @@ export class GraphCanvas {
     }
 
     private createNode(x: number, y: number): void {
-        const color = getRandomFromArray(CONSTANTS.COLORS) as hsbColor;
+        const { nodeRadius, colors, width, height } = this.config;
+        const color = getRandomFromArray(
+            colors === undefined ? CONSTANTS.COLORS : colors
+        ) as hsbColor;
+        const nodeRadiusConfig =
+            nodeRadius === undefined ? CONSTANTS.NODE_RADIUS : nodeRadius;
         const vector = new p5.Vector(x, y);
-        const newNode = new GraphNode(vector, color);
+        const newNode = new GraphNode({
+            vector,
+            color,
+            radius: nodeRadiusConfig,
+        });
         const { list: nodeList } = this.nodes;
 
         const collidedWithNewNode = [...nodeList].some(([_, node]) =>
@@ -69,7 +98,7 @@ export class GraphCanvas {
         );
 
         if (
-            !newNode.checkBoundaryCollision(this.width, this.height) &&
+            !newNode.checkBoundaryCollision(width, height) &&
             !collidedWithNewNode
         ) {
             this.nodes.add(newNode);
