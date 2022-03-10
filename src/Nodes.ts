@@ -5,9 +5,9 @@ export class Nodes {
     connectionCap: number;
     list: Map<nodeID, GraphNode>;
 
-    constructor(distanceCap: number, connectionCap: number) {
-        this.distanceCap = distanceCap;
-        this.connectionCap = connectionCap;
+    constructor(args: { distanceCap: number; connectionCap: number }) {
+        this.distanceCap = args.distanceCap;
+        this.connectionCap = args.connectionCap;
         this.list = new Map();
     }
 

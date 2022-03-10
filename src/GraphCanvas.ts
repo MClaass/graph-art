@@ -29,7 +29,10 @@ export class GraphCanvas {
         const distanceCapConfig =
             distanceCap === undefined ? CONSTANTS.DISTANCE_CAP : distanceCap;
 
-        this.nodes = new Nodes(connectionCapConfig, distanceCapConfig);
+        this.nodes = new Nodes({
+            distanceCap: distanceCapConfig,
+            connectionCap: connectionCapConfig,
+        });
         this.canvas = (p: p5): p5 => {
             p.setup = () => {
                 const { width, height, nodeLimit } = this.config;
