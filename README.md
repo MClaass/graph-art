@@ -23,15 +23,23 @@ The instantiation of the graph canvas accepts a config file with default options
 6. **nodeConnectionCap**: limit of connections each node accepts when rendering. Default: 4.
 7. **distanceCap**: limit distance to other nodes to accept connections from in pixels. Default: 140.
 
-configObject {
-    width: number;
-    height: number;
-    colors?: hsbColor[];
-    nodeRadius?: number;
-    nodeLimit?: number;
-    nodeConnectionCap?: number;
-    distanceCap?: number;
+```json
+{
+    "width": 500,
+    "height": 500,
+    "colors":
+    [
+        [194, 100, 10],
+        [169, 100, 45],
+        [181, 93, 59],
+        [159, 29, 83]
+    ],
+    "nodeRadius": 6,
+    "nodeLimit": 100,
+    "nodeConnectionCap": 4,
+    "distanceCap": 150
 }
+```
 
 Instantiate a new graph visualisation  by calling `new GraphCanvas(configObject)`.
 
