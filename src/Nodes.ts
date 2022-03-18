@@ -1,4 +1,5 @@
 import { Joints, GraphNode, nodeID } from "./Node";
+import p5 from "p5";
 
 export class Nodes {
     distanceCap: number;
