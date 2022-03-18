@@ -19,7 +19,7 @@
         "forceConsistentCasingInFileNames": true,
         "allowUnusedLabels": false,
         "strictPropertyInitialization": true,
-        "typeRoots": ["src/customTypes"]
+        "typeRoots": ["./node_modules/@types","src/customTypes"]
     },
     "include": ["./src"],
     "exclude": ["node_modules"]
